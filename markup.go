@@ -26,7 +26,7 @@ func (l *EventListener) PreventDefault() *EventListener {
 
 // Apply implements the Markup interface.
 func (l *EventListener) Apply(h *HTML) {
-	h.EventListeners = append(h.EventListeners, l)
+	h.eventListeners = append(h.eventListeners, l)
 }
 
 // Event represents a DOM event.
@@ -52,9 +52,9 @@ func apply(m MarkupOrComponentOrHTML, h *HTML) {
 	case Markup:
 		m.Apply(h)
 	case Component:
-		h.Children = append(h.Children, m)
+		h.children = append(h.children, m)
 	case *HTML:
-		h.Children = append(h.Children, m)
+		h.children = append(h.children, m)
 	default:
 		panic(fmt.Sprintf("vecty: invalid type %T does not match MarkupOrComponent interface", m))
 	}
@@ -76,10 +76,10 @@ func (m markupFunc) Apply(h *HTML) { m(h) }
 // safe) is used instead.
 func Style(key, value string) Markup {
 	return markupFunc(func(h *HTML) {
-		if h.Styles == nil {
-			h.Styles = make(map[string]string)
+		if h.styles == nil {
+			h.styles = make(map[string]string)
 		}
-		h.Styles[key] = value
+		h.styles[key] = value
 	})
 }
 
@@ -88,17 +88,17 @@ func Style(key, value string) Markup {
 // rather the style subpackage (which is type safe) is used instead.
 func Property(key string, value interface{}) Markup {
 	return markupFunc(func(h *HTML) {
-		if h.Properties == nil {
-			h.Properties = make(map[string]interface{})
+		if h.properties == nil {
+			h.properties = make(map[string]interface{})
 		}
-		h.Properties[key] = value
+		h.properties[key] = value
 	})
 }
 
 // Data returns Markup which applies the given data attribute.
 func Data(key, value string) Markup {
 	return markupFunc(func(h *HTML) {
-		h.Dataset[key] = value
+		h.dataset[key] = value
 	})
 }
 

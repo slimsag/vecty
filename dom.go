@@ -97,60 +97,61 @@ type Restorer interface {
 // HTML represents some form of HTML: an element with a specific tag, or some
 // literal text (a TextNode).
 type HTML struct {
-	Tag, Text       string
-	Styles, Dataset map[string]string
-	Properties      map[string]interface{}
-	EventListeners  []*EventListener
-	Children        []ComponentOrHTML
-	Node            *js.Object
+	Node *js.Object
+
+	tag, text       string
+	styles, dataset map[string]string
+	properties      map[string]interface{}
+	eventListeners  []*EventListener
+	children        []ComponentOrHTML
 }
 
 func (h *HTML) restoreHTML(prev *HTML) {
 	h.Node = prev.Node
 
 	// Text modifications.
-	if h.Text != prev.Text {
-		h.Node.Set("nodeValue", h.Text)
+	if h.text != prev.text {
+		h.Node.Set("nodeValue", h.text)
 	}
 
 	// Properties
-	for name, value := range h.Properties {
-		oldValue := prev.Properties[name]
+	for name, value := range h.properties {
+		oldValue := prev.properties[name]
 		if value != oldValue || name == "value" || name == "checked" {
 			h.Node.Set(name, value)
 		}
 	}
-	for name := range prev.Properties {
-		if _, ok := h.Properties[name]; !ok {
+	for name := range prev.properties {
+		if _, ok := h.properties[name]; !ok {
 			h.Node.Set(name, nil)
 		}
 	}
 
 	// Styles
 	style := h.Node.Get("style")
-	for name, value := range h.Styles {
-		oldValue := prev.Styles[name]
+	for name, value := range h.styles {
+		oldValue := prev.styles[name]
 		if value != oldValue {
 			style.Call("setProperty", name, value)
 		}
 	}
-	for name := range prev.Styles {
-		if _, ok := h.Styles[name]; !ok {
+	for name := range prev.styles {
+		if _, ok := h.styles[name]; !ok {
 			style.Call("removeProperty", name)
 		}
 	}
 
-	for _, l := range prev.EventListeners {
+	for _, l := range prev.eventListeners {
 		h.Node.Call("removeEventListener", l.Name, l.wrapper)
 	}
-	for _, l := range h.EventListeners {
+	for _, l := range h.eventListeners {
 		h.Node.Call("addEventListener", l.Name, l.wrapper)
 	}
 
 	// TODO better list element reuse
-	for i, nextChild := range h.Children {
+	for i, nextChild := range h.children {
 		nextChildRender := doRender(nextChild)
-		if i >= len(prev.Children) {
+		if i >= len(prev.children) {
 			if doRestore(nil, nextChild, nil, nextChildRender) {
 				continue
 			}
@@ -158,7 +159,7 @@ func (h *HTML) restoreHTML(prev *HTML) {
 			doMount(nextChild)
 			continue
 		}
-		prevChild := prev.Children[i]
+		prevChild := prev.children[i]
 		prevChildRender, ok := prevChild.(*HTML)
 		if !ok {
 			// ??? what if prev is HTML
@@ -170,8 +171,8 @@ func (h *HTML) restoreHTML(prev *HTML) {
 		replaceNode(nextChildRender.Node, prevChildRender.Node)
 		doMount(nextChild)
 	}
-	for i := len(h.Children); i < len(prev.Children); i++ {
-		prevChild := prev.Children[i]
+	for i := len(h.children); i < len(prev.children); i++ {
+		prevChild := prev.children[i]
 		prevChildRender, ok := prevChild.(*HTML)
 		if !ok {
 			// ??? what if prev is HTML
@@ -186,7 +187,7 @@ func (h *HTML) restoreHTML(prev *HTML) {
 
 // Restore implements the Restorer interface.
 func (h *HTML) Restore(old ComponentOrHTML) {
-	for _, l := range h.EventListeners {
+	for _, l := range h.eventListeners {
 		l.wrapper = func(jsEvent *js.Object) {
 			if l.callPreventDefault {
 				jsEvent.Call("preventDefault")
@@ -200,29 +201,29 @@ func (h *HTML) Restore(old ComponentOrHTML) {
 		return
 	}
 
-	if h.Tag != "" && h.Text != "" {
-		panic("vecty: only one of HTML.Tag or HTML.Text may be set")
+	if h.tag != "" && h.text != "" {
+		panic("vecty: only one of HTML.tag or HTML.text may be set")
 	}
-	if h.Tag != "" {
-		h.Node = js.Global.Get("document").Call("createElement", h.Tag)
-	} else if h.Text != "" {
-		h.Node = js.Global.Get("document").Call("createTextNode", h.Text)
+	if h.tag != "" {
+		h.Node = js.Global.Get("document").Call("createElement", h.tag)
+	} else if h.text != "" {
+		h.Node = js.Global.Get("document").Call("createTextNode", h.text)
 	}
-	for name, value := range h.Properties {
+	for name, value := range h.properties {
 		h.Node.Set(name, value)
 	}
 	dataset := h.Node.Get("dataset")
-	for name, value := range h.Dataset {
+	for name, value := range h.dataset {
 		dataset.Set(name, value)
 	}
 	style := h.Node.Get("style")
-	for name, value := range h.Styles {
+	for name, value := range h.styles {
 		style.Call("setProperty", name, value)
 	}
-	for _, l := range h.EventListeners {
+	for _, l := range h.eventListeners {
 		h.Node.Call("addEventListener", l.Name, l.wrapper)
 	}
-	for _, nextChild := range h.Children {
+	for _, nextChild := range h.children {
 		nextChildRender, isHTML := nextChild.(*HTML)
 		if !isHTML {
 			nextChildComp := nextChild.(Component)
@@ -243,7 +244,7 @@ func (h *HTML) Restore(old ComponentOrHTML) {
 // safe) is used instead.
 func Tag(tag string, m ...MarkupOrComponentOrHTML) *HTML {
 	h := &HTML{
-		Tag: tag,
+		tag: tag,
 	}
 	for _, m := range m {
 		apply(m, h)
@@ -256,7 +257,7 @@ func Tag(tag string, m ...MarkupOrComponentOrHTML) *HTML {
 // user input fed into this function will always be safely rendered).
 func Text(text string, m ...MarkupOrComponentOrHTML) *HTML {
 	h := &HTML{
-		Text: text,
+		text: text,
 	}
 	for _, m := range m {
 		apply(m, h)
@@ -307,8 +308,8 @@ func doRestore(prev, next ComponentOrHTML, prevRender, nextRender *HTML) (skip b
 // Component's Render method must return a "body" element.
 func RenderBody(body Component) {
 	nextRender := doRender(body)
-	if nextRender.Tag != "body" {
-		panic(fmt.Sprintf("vecty: RenderBody expected Component.Render to return a body tag, found %q", nextRender.Tag))
+	if nextRender.tag != "body" {
+		panic(fmt.Sprintf("vecty: RenderBody expected Component.Render to return a body tag, found %q", nextRender.tag))
 	}
 	doRestore(nil, body, nil, nextRender)
 	// TODO: doRestore skip == true here probably implies a user code bug
