@@ -2,7 +2,9 @@
 
 // Package event defines markup to bind DOM events.
 //
-// Generated from "Event reference" by Mozilla Contributors, https://developer.mozilla.org/en-US/docs/Web/Events, licensed under CC-BY-SA 2.5.
+// Generated from "Event reference" by Mozilla Contributors,
+// https://developer.mozilla.org/en-US/docs/Web/Events, licensed under
+// CC-BY-SA 2.5.
 package event
 
 import "github.com/gopherjs/vecty"
@@ -14,7 +16,8 @@ func Abort(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "abort", Listener: listener}
 }
 
-// The associated document has started printing or the print preview has been closed.
+// The associated document has started printing or the print preview has been
+// closed.
 //
 // https://developer.mozilla.org/docs/Web/Events/afterprint
 func AfterPrint(listener func(*vecty.Event)) *vecty.EventListener {
@@ -84,7 +87,8 @@ func BeginEvent(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "beginEvent", Listener: listener}
 }
 
-// An open connection to a database is blocking a versionchange transaction on the same database.
+// An open connection to a database is blocking a versionchange transaction on
+// the same database.
 //
 // https://developer.mozilla.org/docs/Web/Reference/Events/blocked_indexedDB
 func Blocked(listener func(*vecty.Event)) *vecty.EventListener {
@@ -105,28 +109,34 @@ func Boundary(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "boundary", Listener: listener}
 }
 
-// The resources listed in the manifest have been downloaded, and the application is now cached.
+// The resources listed in the manifest have been downloaded, and the
+// application is now cached.
 //
 // https://developer.mozilla.org/docs/Web/Events/cached
 func Cached(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "cached", Listener: listener}
 }
 
-// The user agent can play the media, but estimates that not enough data has been loaded to play the media up to its end without having to stop for further buffering of content.
+// The user agent can play the media, but estimates that not enough data has
+// been loaded to play the media up to its end without having to stop for
+// further buffering of content.
 //
 // https://developer.mozilla.org/docs/Web/Events/canplay
 func CanPlay(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "canplay", Listener: listener}
 }
 
-// The user agent can play the media, and estimates that enough data has been loaded to play the media up to its end without having to stop for further buffering of content.
+// The user agent can play the media, and estimates that enough data has been
+// loaded to play the media up to its end without having to stop for further
+// buffering of content.
 //
 // https://developer.mozilla.org/docs/Web/Events/canplaythrough
 func CanPlayThrough(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "canplaythrough", Listener: listener}
 }
 
-// The change event is fired for <input>, <select>, and <textarea> elements when a change to the element's value is committed by the user.
+// The change event is fired for <input>, <select>, and <textarea> elements
+// when a change to the element's value is committed by the user.
 //
 // https://developer.mozilla.org/docs/Web/Events/change
 func Change(listener func(*vecty.Event)) *vecty.EventListener {
@@ -147,7 +157,8 @@ func ChargingTimeChange(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "chargingtimechange", Listener: listener}
 }
 
-// The user agent is checking for an update, or attempting to download the cache manifest for the first time.
+// The user agent is checking for an update, or attempting to download the
+// cache manifest for the first time.
 //
 // https://developer.mozilla.org/docs/Web/Events/checking
 func Checking(listener func(*vecty.Event)) *vecty.EventListener {
@@ -182,7 +193,8 @@ func CompositionEnd(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "compositionend", Listener: listener}
 }
 
-// The composition of a passage of text is prepared (similar to keydown for a keyboard input, but works with other inputs such as speech recognition).
+// The composition of a passage of text is prepared (similar to keydown for a
+// keyboard input, but works with other inputs such as speech recognition).
 //
 // https://developer.mozilla.org/docs/Web/Events/compositionstart
 func CompositionStart(listener func(*vecty.Event)) *vecty.EventListener {
@@ -196,7 +208,8 @@ func CompositionUpdate(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "compositionupdate", Listener: listener}
 }
 
-// The right button of the mouse is clicked (before the context menu is displayed).
+// The right button of the mouse is clicked (before the context menu is
+// displayed).
 //
 // https://developer.mozilla.org/docs/Web/Events/contextmenu
 func ContextMenu(listener func(*vecty.Event)) *vecty.EventListener {
@@ -210,7 +223,8 @@ func Copy(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "copy", Listener: listener}
 }
 
-// The text selection has been removed from the document and added to the clipboard.
+// The text selection has been removed from the document and added to the
+// clipboard.
 //
 // https://developer.mozilla.org/docs/Web/Events/cut
 func Cut(listener func(*vecty.Event)) *vecty.EventListener {
@@ -245,7 +259,8 @@ func DeviceOrientation(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "deviceorientation", Listener: listener}
 }
 
-// Fresh data is available from a proximity sensor (indicates an approximated distance between the device and a nearby object).
+// Fresh data is available from a proximity sensor (indicates an approximated
+// distance between the device and a nearby object).
 //
 // https://developer.mozilla.org/docs/Web/Events/deviceproximity
 func DeviceProximity(listener func(*vecty.Event)) *vecty.EventListener {
@@ -266,7 +281,8 @@ func DoubleClick(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "dblclick", Listener: listener}
 }
 
-// The user agent has found an update and is fetching it, or is downloading the resources listed by the cache manifest for the first time.
+// The user agent has found an update and is fetching it, or is downloading the
+// resources listed by the cache manifest for the first time.
 //
 // https://developer.mozilla.org/docs/Web/Events/downloading
 func Downloading(listener func(*vecty.Event)) *vecty.EventListener {
@@ -280,7 +296,8 @@ func Drag(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "drag", Listener: listener}
 }
 
-// A drag operation is being ended (by releasing a mouse button or hitting the escape key).
+// A drag operation is being ended (by releasing a mouse button or hitting the
+// escape key).
 //
 // https://developer.mozilla.org/docs/Web/Events/dragend
 func DragEnd(listener func(*vecty.Event)) *vecty.EventListener {
@@ -301,7 +318,8 @@ func DragLeave(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "dragleave", Listener: listener}
 }
 
-// An element or text selection is being dragged over a valid drop target (every 350ms).
+// An element or text selection is being dragged over a valid drop target
+// (every 350ms).
 //
 // https://developer.mozilla.org/docs/Web/Events/dragover
 func DragOver(listener func(*vecty.Event)) *vecty.EventListener {
@@ -329,7 +347,9 @@ func DurationChange(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "durationchange", Listener: listener}
 }
 
-// The media has become empty; for example, this event is sent if the media has already been loaded (or partially loaded), and the load() method is called to reload it.
+// The media has become empty; for example, this event is sent if the media has
+// already been loaded (or partially loaded), and the load() method is called
+// to reload it.
 //
 // https://developer.mozilla.org/docs/Web/Events/emptied
 func Emptied(listener func(*vecty.Event)) *vecty.EventListener {
@@ -357,7 +377,7 @@ func Ended(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "ended", Listener: listener}
 }
 
-// An error occurs that prevents the utterance from being succesfully spoken.
+// An error occurs that prevents the utterance from being successfully spoken.
 //
 // https://developer.mozilla.org/docs/Web/Events/error_(SpeechSynthesisError)
 func Error(listener func(*vecty.Event)) *vecty.EventListener {
@@ -392,7 +412,8 @@ func FullScreenChange(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "fullscreenchange", Listener: listener}
 }
 
-// It was impossible to switch to fullscreen mode for technical reasons or because the permission was denied.
+// It was impossible to switch to fullscreen mode for technical reasons or
+// because the permission was denied.
 //
 // https://developer.mozilla.org/docs/Web/Events/fullscreenerror
 func FullScreenError(listener func(*vecty.Event)) *vecty.EventListener {
@@ -420,14 +441,16 @@ func GotPointerCapture(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "gotpointercapture", Listener: listener}
 }
 
-// The fragment identifier of the URL has changed (the part of the URL after the #).
+// The fragment identifier of the URL has changed (the part of the URL after
+// the #).
 //
 // https://developer.mozilla.org/docs/Web/Events/hashchange
 func HashChange(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "hashchange", Listener: listener}
 }
 
-// The value of an element changes or the content of an element with the attribute contenteditable is modified.
+// The value of an element changes or the content of an element with the
+// attribute contenteditable is modified.
 //
 // https://developer.mozilla.org/docs/Web/Events/input
 func Input(listener func(*vecty.Event)) *vecty.EventListener {
@@ -448,7 +471,8 @@ func KeyDown(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "keydown", Listener: listener}
 }
 
-// A key is pressed down and that key normally produces a character value (use input instead).
+// A key is pressed down and that key normally produces a character value (use
+// input instead).
 //
 // https://developer.mozilla.org/docs/Web/Events/keypress
 func KeyPress(listener func(*vecty.Event)) *vecty.EventListener {
@@ -483,7 +507,8 @@ func Load(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "load", Listener: listener}
 }
 
-// Progress has stopped (after "error", "abort" or "load" have been dispatched).
+// Progress has stopped (after "error", "abort" or "load" have been
+// dispatched).
 //
 // https://developer.mozilla.org/docs/Web/Events/loadend
 func LoadEnd(listener func(*vecty.Event)) *vecty.EventListener {
@@ -525,7 +550,8 @@ func Mark(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "mark", Listener: listener}
 }
 
-// A message is received from a service worker, or a message is received in a service worker from another context.
+// A message is received from a service worker, or a message is received in a
+// service worker from another context.
 //
 // https://developer.mozilla.org/docs/Web/Events/message_(ServiceWorker)
 func Message(listener func(*vecty.Event)) *vecty.EventListener {
@@ -560,14 +586,16 @@ func MouseMove(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "mousemove", Listener: listener}
 }
 
-// A pointing device is moved off the element that has the listener attached or off one of its children.
+// A pointing device is moved off the element that has the listener attached or
+// off one of its children.
 //
 // https://developer.mozilla.org/docs/Web/Events/mouseout
 func MouseOut(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "mouseout", Listener: listener}
 }
 
-// A pointing device is moved onto the element that has the listener attached or onto one of its children.
+// A pointing device is moved onto the element that has the listener attached
+// or onto one of its children.
 //
 // https://developer.mozilla.org/docs/Web/Events/mouseover
 func MouseOver(listener func(*vecty.Event)) *vecty.EventListener {
@@ -581,7 +609,8 @@ func MouseUp(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "mouseup", Listener: listener}
 }
 
-// The speech recognition service returns a final result with no significant recognition.
+// The speech recognition service returns a final result with no significant
+// recognition.
 //
 // https://developer.mozilla.org/docs/Web/Events/nomatch
 func NoMatch(listener func(*vecty.Event)) *vecty.EventListener {
@@ -595,14 +624,16 @@ func NoUpdate(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "noupdate", Listener: listener}
 }
 
-// A system notification spawned by ServiceWorkerRegistration.showNotification() has been clicked.
+// A system notification spawned by
+// ServiceWorkerRegistration.showNotification() has been clicked.
 //
 // https://developer.mozilla.org/docs/Web/Events/notificationclick
 func NotificationClick(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "notificationclick", Listener: listener}
 }
 
-// The manifest was found to have become a 404 or 410 page, so the application cache is being deleted.
+// The manifest was found to have become a 404 or 410 page, so the application
+// cache is being deleted.
 //
 // https://developer.mozilla.org/docs/Web/Events/obsolete
 func Obsolete(listener func(*vecty.Event)) *vecty.EventListener {
@@ -616,7 +647,8 @@ func Offline(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "offline", Listener: listener}
 }
 
-// The browser has gained access to the network (but particular websites might be unreachable).
+// The browser has gained access to the network (but particular websites might
+// be unreachable).
 //
 // https://developer.mozilla.org/docs/Web/Events/online
 func Online(listener func(*vecty.Event)) *vecty.EventListener {
@@ -651,7 +683,7 @@ func PageShow(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "pageshow", Listener: listener}
 }
 
-// Data has been transfered from the system clipboard to the document.
+// Data has been transferred from the system clipboard to the document.
 //
 // https://developer.mozilla.org/docs/Web/Events/paste
 func Paste(listener func(*vecty.Event)) *vecty.EventListener {
@@ -672,7 +704,8 @@ func Play(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "play", Listener: listener}
 }
 
-// Playback is ready to start after having been paused or delayed due to lack of data.
+// Playback is ready to start after having been paused or delayed due to lack
+// of data.
 //
 // https://developer.mozilla.org/docs/Web/Events/playing
 func Playing(listener func(*vecty.Event)) *vecty.EventListener {
@@ -714,7 +747,8 @@ func PointerLockChange(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "pointerlockchange", Listener: listener}
 }
 
-// It was impossible to lock the pointer for technical reasons or because the permission was denied.
+// It was impossible to lock the pointer for technical reasons or because the
+// permission was denied.
 //
 // https://developer.mozilla.org/docs/Web/Events/pointerlockerror
 func PointerLockError(listener func(*vecty.Event)) *vecty.EventListener {
@@ -728,7 +762,8 @@ func PointerMove(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "pointermove", Listener: listener}
 }
 
-// The pointing device moved out of hit-testing boundary or leaves detectable hover range.
+// The pointing device moved out of hit-testing boundary or leaves detectable
+// hover range.
 //
 // https://developer.mozilla.org/docs/Web/Events/pointerout
 func PointerOut(listener func(*vecty.Event)) *vecty.EventListener {
@@ -819,7 +854,8 @@ func ResourceTimingBufferFull(listener func(*vecty.Event)) *vecty.EventListener 
 	return &vecty.EventListener{Name: "resourcetimingbufferfull", Listener: listener}
 }
 
-// The speech recognition service returns a result — a word or phrase has been positively recognized and this has been communicated back to the app.
+// The speech recognition service returns a result — a word or phrase has
+// been positively recognized and this has been communicated back to the app.
 //
 // https://developer.mozilla.org/docs/Web/Events/result
 func Result(listener func(*vecty.Event)) *vecty.EventListener {
@@ -924,7 +960,8 @@ func SelectionChange(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "selectionchange", Listener: listener}
 }
 
-// A contextmenu event was fired on/bubbled to an element that has a contextmenu attribute
+// A contextmenu event was fired on/bubbled to an element that has a
+// contextmenu attribute
 //
 // https://developer.mozilla.org/docs/Web/Events/show
 func Show(listener func(*vecty.Event)) *vecty.EventListener {
@@ -945,21 +982,24 @@ func SoundStart(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "soundstart", Listener: listener}
 }
 
-// Speech recognised by the speech recognition service has stopped being detected.
+// Speech recognised by the speech recognition service has stopped being
+// detected.
 //
 // https://developer.mozilla.org/docs/Web/Events/speechend
 func SpeechEnd(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "speechend", Listener: listener}
 }
 
-// Sound that is recognised by the speech recognition service as speech has been detected.
+// Sound that is recognised by the speech recognition service as speech has
+// been detected.
 //
 // https://developer.mozilla.org/docs/Web/Events/speechstart
 func SpeechStart(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "speechstart", Listener: listener}
 }
 
-// The user agent is trying to fetch media data, but data is unexpectedly not forthcoming.
+// The user agent is trying to fetch media data, but data is unexpectedly not
+// forthcoming.
 //
 // https://developer.mozilla.org/docs/Web/Events/stalled
 func Stalled(listener func(*vecty.Event)) *vecty.EventListener {
@@ -1015,7 +1055,8 @@ func Timeout(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "timeout", Listener: listener}
 }
 
-// A touch point has been disrupted in an implementation-specific manners (too many touch points for example).
+// A touch point has been disrupted in an implementation-specific manners (too
+// many touch points for example).
 //
 // https://developer.mozilla.org/docs/Web/Events/touchcancel
 func TouchCancel(listener func(*vecty.Event)) *vecty.EventListener {
@@ -1071,21 +1112,24 @@ func Unload(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "unload", Listener: listener}
 }
 
-// The resources listed in the manifest have been newly redownloaded, and the script can use swapCache() to switch to the new cache.
+// The resources listed in the manifest have been newly redownloaded, and the
+// script can use swapCache() to switch to the new cache.
 //
 // https://developer.mozilla.org/docs/Web/Events/updateready
 func UpdateReady(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "updateready", Listener: listener}
 }
 
-// An attempt was made to open a database with a version number higher than its current version. A versionchange transaction has been created.
+// An attempt was made to open a database with a version number higher than its
+// current version. A versionchange transaction has been created.
 //
 // https://developer.mozilla.org/docs/Web/Reference/Events/upgradeneeded_indexedDB
 func UpgradeNeeded(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "upgradeneeded", Listener: listener}
 }
 
-// Fresh data is available from a proximity sensor (indicates whether the nearby object is near the device or not).
+// Fresh data is available from a proximity sensor (indicates whether the
+// nearby object is near the device or not).
 //
 // https://developer.mozilla.org/docs/Web/Events/userproximity
 func UserProximity(listener func(*vecty.Event)) *vecty.EventListener {
@@ -1106,7 +1150,9 @@ func VisibilityChange(listener func(*vecty.Event)) *vecty.EventListener {
 	return &vecty.EventListener{Name: "visibilitychange", Listener: listener}
 }
 
-// The list of SpeechSynthesisVoice objects that would be returned by the SpeechSynthesis.getVoices() method has changed (when the voiceschanged event fires.)
+// The list of SpeechSynthesisVoice objects that would be returned by the
+// SpeechSynthesis.getVoices() method has changed (when the voiceschanged event
+// fires.)
 //
 // https://developer.mozilla.org/docs/Web/Events/voiceschanged
 func VoicesChanged(listener func(*vecty.Event)) *vecty.EventListener {
