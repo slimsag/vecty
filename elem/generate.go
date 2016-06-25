@@ -121,7 +121,7 @@ import "github.com/gopherjs/vecty"
 		}
 
 		name := text[1 : len(text)-1]
-		if name == "html" || name == "head" || name == "body" {
+		if name == "html" || name == "head" {
 			return
 		}
 
@@ -139,10 +139,8 @@ func writeElem(w io.Writer, name, desc, link string) {
 // %s
 //
 // https://developer.mozilla.org%s
-func %s(markup ...vecty.Markup) *vecty.Element {
-	e := &vecty.Element{TagName: "%s"}
-	vecty.List(markup).Apply(e)
-	return e
+func %s(markup ...vecty.MarkupOrComponentOrHTML) *vecty.HTML {
+	return vecty.Tag("%s", markup...)
 }
 `, desc, link, funName, name)
 }
