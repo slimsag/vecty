@@ -6,11 +6,14 @@ import (
 	"github.com/gopherjs/gopherjs/js"
 )
 
+// Core implements the Context method of the Component interface, and is the
+// core/central struct which all Component implementations should embed.
 type Core struct {
 	prevRender *HTML
 	didMount   bool
 }
 
+// Context implements the Component interface.
 func (c *Core) Context() *Core { return c }
 
 func doMount(c ComponentOrHTML) {
@@ -28,6 +31,19 @@ func doMount(c ComponentOrHTML) {
 	}
 }
 
+// Component represents a single visual component within an application. To
+// define a new component simply implement the Render method and embed the Core
+// struct:
+//
+// 	type MyComponent struct {
+// 		vecty.Core
+// 		... additional component fields (state or properties) ...
+// 	}
+//
+// 	func (c *MyComponent) Render() *vecty.HTML {
+// 		... rendering ...
+// 	}
+//
 type Component interface {
 	// Render is responsible for building HTML which represents the component.
 	Render() *HTML
@@ -37,6 +53,13 @@ type Component interface {
 	Context() *Core
 }
 
+// ComponentOrHTML represents one of:
+//
+//  Component
+//  *HTML
+//
+// If the underlying value is not one of these types, the code handling the
+// value is expected to panic.
 type ComponentOrHTML interface{}
 
 // Mounter is an optional interface that Component's can implement in order to
@@ -71,6 +94,8 @@ type Restorer interface {
 	Restore(prev Component) (skip bool)
 }
 
+// HTML represents some form of HTML: an element with a specific tag, or some
+// literal text (a TextNode).
 type HTML struct {
 	Tag, Text       string
 	Styles, Dataset map[string]string
@@ -159,6 +184,7 @@ func (h *HTML) restoreHTML(prev *HTML) {
 	}
 }
 
+// Restore implements the Restorer interface.
 func (h *HTML) Restore(old ComponentOrHTML) {
 	for _, l := range h.EventListeners {
 		l.wrapper = func(jsEvent *js.Object) {
@@ -212,6 +238,9 @@ func (h *HTML) Restore(old ComponentOrHTML) {
 	}
 }
 
+// Tag returns an HTML element with the given tag name. Generally, this
+// function is not used directly but rather the elem subpackage (which is type
+// safe) is used instead.
 func Tag(tag string, m ...MarkupOrComponentOrHTML) *HTML {
 	h := &HTML{
 		Tag: tag,
@@ -222,6 +251,9 @@ func Tag(tag string, m ...MarkupOrComponentOrHTML) *HTML {
 	return h
 }
 
+// Text returns a TextNode with the given literal text. Because the returned
+// HTML represents a TextNode, the text does not have to be escaped (arbitrary
+// user input fed into this function will always be safely rendered).
 func Text(text string, m ...MarkupOrComponentOrHTML) *HTML {
 	h := &HTML{
 		Text: text,
@@ -232,6 +264,8 @@ func Text(text string, m ...MarkupOrComponentOrHTML) *HTML {
 	return h
 }
 
+// Rerender causes the body of the given component (i.e. the HTML returned by
+// the Component's Render method) to be re-rendered and subsequently restored.
 func Rerender(c Component) {
 	prevRender := c.Context().prevRender
 	nextRender := doRender(c)
@@ -269,6 +303,8 @@ func doRestore(prev, next ComponentOrHTML, prevRender, nextRender *HTML) (skip b
 	return false
 }
 
+// RenderBody renders the given component as the document body. The given
+// Component's Render method must return a "body" element.
 func RenderBody(body Component) {
 	nextRender := doRender(body)
 	if nextRender.Tag != "body" {

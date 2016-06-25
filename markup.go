@@ -24,6 +24,7 @@ func (l *EventListener) PreventDefault() *EventListener {
 	return l
 }
 
+// Apply implements the Markup interface.
 func (l *EventListener) Apply(h *HTML) {
 	h.EventListeners = append(h.EventListeners, l)
 }
@@ -33,6 +34,14 @@ type Event struct {
 	Target *js.Object
 }
 
+// MarkupOrComponentOrHTML represents one of:
+//
+//  Markup
+//  Component
+//  *HTML
+//
+// If the underlying value is not one of these types, the code handling the
+// value is expected to panic.
 type MarkupOrComponentOrHTML interface{}
 
 func apply(m MarkupOrComponentOrHTML, h *HTML) {
@@ -51,7 +60,10 @@ func apply(m MarkupOrComponentOrHTML, h *HTML) {
 	}
 }
 
+// Markup represents some type of markup (a style, property, data, etc) which
+// can be applied to a given HTML element or text node.
 type Markup interface {
+	// Apply applies the markup to the given HTML element or text node.
 	Apply(h *HTML)
 }
 
@@ -59,6 +71,9 @@ type markupFunc func(h *HTML)
 
 func (m markupFunc) Apply(h *HTML) { m(h) }
 
+// Style returns Markup which applies the given CSS style. Generally, this
+// function is not used directly but rather the style subpackage (which is type
+// safe) is used instead.
 func Style(key, value string) Markup {
 	return markupFunc(func(h *HTML) {
 		if h.Styles == nil {
@@ -68,6 +83,9 @@ func Style(key, value string) Markup {
 	})
 }
 
+// Property returns Markup which applies the given JavaScript property to an
+// HTML element or text node. Generally, this function is not used directly but
+// rather the style subpackage (which is type safe) is used instead.
 func Property(key string, value interface{}) Markup {
 	return markupFunc(func(h *HTML) {
 		if h.Properties == nil {
@@ -77,6 +95,7 @@ func Property(key string, value interface{}) Markup {
 	})
 }
 
+// Data returns Markup which applies the given data attribute.
 func Data(key, value string) Markup {
 	return markupFunc(func(h *HTML) {
 		h.Dataset[key] = value
@@ -98,8 +117,11 @@ func (m ClassMap) Apply(h *HTML) {
 	Property("className", strings.Join(classes, " ")).Apply(h)
 }
 
+// List represents a list of Markup, Component, or HTML which is individually
+// applied to an HTML element or text node.
 type List []MarkupOrComponentOrHTML
 
+// Apply implements the Markup interface.
 func (l List) Apply(h *HTML) {
 	for _, m := range l {
 		apply(m, h)
