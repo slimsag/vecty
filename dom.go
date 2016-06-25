@@ -10,10 +10,26 @@ import (
 // core/central struct which all Component implementations should embed.
 type Core struct {
 	prevRender *HTML
+	didMount   bool
 }
 
 // Context implements the Component interface.
 func (c *Core) Context() *Core { return c }
+
+func doMount(c ComponentOrHTML) {
+	if _, isHTML := c.(*HTML); isHTML {
+		return
+	}
+	ctx := c.(Component).Context()
+	if ctx.didMount {
+		return
+	}
+	ctx.didMount = true
+
+	if m, ok := c.(Mounter); ok {
+		m.Mount()
+	}
+}
 
 // Component represents a single visual component within an application. To
 // define a new component simply implement the Render method and embed the Core
@@ -45,6 +61,22 @@ type Component interface {
 // If the underlying value is not one of these types, the code handling the
 // value is expected to panic.
 type ComponentOrHTML interface{}
+
+// Mounter is an optional interface that Component's can implement in order to
+// receive component mount events.
+type Mounter interface {
+	// Mount is called directly after the component is mounted. That is,
+	// directly after the element has been added to the DOM.
+	Mount()
+}
+
+// Unmounter is an optional interface that Component's can implement in order
+// to receive component unmount events.
+type Unmounter interface {
+	// Unmount is called directly before the component is unmounted. That is,
+	// prior to the element being removed from the DOM.
+	Unmount()
+}
 
 // Restorer is an optional interface that Component's can implement in order to
 // restore state during component reconciliation and also to short-circuit
@@ -136,6 +168,7 @@ func (h *HTML) restoreHTML(prev *HTML) {
 				continue
 			}
 			h.Node.Call("appendChild", nextChildRender.Node)
+			doMount(nextChild)
 			continue
 		}
 		prevChild := prev.children[i]
@@ -147,6 +180,7 @@ func (h *HTML) restoreHTML(prev *HTML) {
 			continue
 		}
 		replaceNode(nextChildRender.Node, prevChildRender.Node)
+		doMount(nextChild)
 	}
 	for i := len(h.children); i < len(prev.children); i++ {
 		prevChild := prev.children[i]
@@ -155,6 +189,9 @@ func (h *HTML) restoreHTML(prev *HTML) {
 			prevChildRender = prevChild.(Component).Context().prevRender
 		}
 		removeNode(prevChildRender.Node)
+		if unmounter, ok := prevChild.(Unmounter); ok {
+			unmounter.Unmount()
+		}
 	}
 }
 
@@ -217,6 +254,7 @@ func (h *HTML) Restore(old ComponentOrHTML) {
 			continue
 		}
 		h.Node.Call("appendChild", nextChildRender.Node)
+		doMount(nextChild)
 	}
 }
 
@@ -257,6 +295,7 @@ func Rerender(c Component) {
 	}
 	if prevRender != nil {
 		replaceNode(nextRender.Node, prevRender.Node)
+		doMount(c)
 	}
 }
 
@@ -301,6 +340,7 @@ func RenderBody(body Component) {
 		return
 	}
 	doc.Set("body", nextRender.Node)
+	doMount(body)
 }
 
 // SetTitle sets the title of the document.
