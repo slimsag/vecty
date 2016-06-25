@@ -8,9 +8,25 @@ import (
 
 type Core struct {
 	prevRender *HTML
+	didMount   bool
 }
 
 func (c *Core) Context() *Core { return c }
+
+func doMount(c ComponentOrHTML) {
+	if _, isHTML := c.(*HTML); isHTML {
+		return
+	}
+	ctx := c.(Component).Context()
+	if ctx.didMount {
+		return
+	}
+	ctx.didMount = true
+
+	if m, ok := c.(Mounter); ok {
+		m.Mount()
+	}
+}
 
 type Component interface {
 	// Render is responsible for building HTML which represents the component.
@@ -22,6 +38,22 @@ type Component interface {
 }
 
 type ComponentOrHTML interface{}
+
+// Mounter is an optional interface that Component's can implement in order to
+// receive component mount events.
+type Mounter interface {
+	// Mount is called directly after the component is mounted. That is,
+	// directly after the element has been added to the DOM.
+	Mount()
+}
+
+// Unmounter is an optional interface that Component's can implement in order
+// to receive component unmount events.
+type Unmounter interface {
+	// Unmount is called directly before the component is unmounted. That is,
+	// prior to the element being removed from the DOM.
+	Unmount()
+}
 
 // Restorer is an optional interface that Component's can implement in order to
 // restore state during component reconciliation and also to short-circuit
@@ -98,6 +130,7 @@ func (h *HTML) restoreHTML(prev *HTML) {
 				continue
 			}
 			h.Node.Call("appendChild", nextChildRender.Node)
+			doMount(nextChild)
 			continue
 		}
 		prevChild := prev.Children[i]
@@ -110,6 +143,7 @@ func (h *HTML) restoreHTML(prev *HTML) {
 			continue
 		}
 		replaceNode(nextChildRender.Node, prevChildRender.Node)
+		doMount(nextChild)
 	}
 	for i := len(h.Children); i < len(prev.Children); i++ {
 		prevChild := prev.Children[i]
@@ -119,6 +153,9 @@ func (h *HTML) restoreHTML(prev *HTML) {
 			prevChildRender = prevChild.(Component).Context().prevRender
 		}
 		removeNode(prevChildRender.Node)
+		if unmounter, ok := prevChild.(Unmounter); ok {
+			unmounter.Unmount()
+		}
 	}
 }
 
@@ -171,6 +208,7 @@ func (h *HTML) Restore(old ComponentOrHTML) {
 			continue
 		}
 		h.Node.Call("appendChild", nextChildRender.Node)
+		doMount(nextChild)
 	}
 }
 
@@ -203,6 +241,7 @@ func Rerender(c Component) {
 	}
 	if prevRender != nil {
 		replaceNode(nextRender.Node, prevRender.Node)
+		doMount(c)
 	}
 }
 
@@ -245,6 +284,7 @@ func RenderBody(body Component) {
 		return
 	}
 	doc.Set("body", nextRender.Node)
+	doMount(body)
 }
 
 // SetTitle sets the title of the document.
