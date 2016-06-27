@@ -116,8 +116,16 @@ func (h *HTML) restoreHTML(prev *HTML) {
 
 	// Properties
 	for name, value := range h.properties {
-		oldValue := prev.properties[name]
-		if value != oldValue || name == "value" || name == "checked" {
+		var oldValue interface{}
+		switch name {
+		case "value":
+			oldValue = h.Node.Get("value").String()
+		case "checked":
+			oldValue = h.Node.Get("checked").Bool()
+		default:
+			oldValue = prev.properties[name]
+		}
+		if value != oldValue {
 			h.Node.Set(name, value)
 		}
 	}
@@ -191,6 +199,9 @@ func (h *HTML) Restore(old ComponentOrHTML) {
 		l.wrapper = func(jsEvent *js.Object) {
 			if l.callPreventDefault {
 				jsEvent.Call("preventDefault")
+			}
+			if l.callStopPropagation {
+				jsEvent.Call("stopPropagation")
 			}
 			l.Listener(&Event{Target: jsEvent.Get("target")})
 		}
