@@ -42,6 +42,7 @@ func (l *EventListener) Apply(h *HTML) {
 // Event represents a DOM event.
 type Event struct {
 	Target *js.Object
+	Raw    *js.Object
 }
 
 // MarkupOrComponentOrHTML represents one of:
