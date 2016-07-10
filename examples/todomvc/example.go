@@ -6,9 +6,9 @@ import (
 
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/gopherjs/vecty"
+	"github.com/gopherjs/vecty/dispatcher"
 	"github.com/gopherjs/vecty/examples/todomvc/actions"
 	"github.com/gopherjs/vecty/examples/todomvc/components"
-	"github.com/gopherjs/vecty/examples/todomvc/dispatcher"
 	"github.com/gopherjs/vecty/examples/todomvc/store"
 	"github.com/gopherjs/vecty/examples/todomvc/store/model"
 )

@@ -1,18 +1,18 @@
-package storeutil
+package listener
 
 import "fmt"
 
-type ListenerRegistry struct {
+type Registry struct {
 	listeners map[interface{}]func()
 }
 
-func NewListenerRegistry() *ListenerRegistry {
-	return &ListenerRegistry{
+func NewRegistry() *Registry {
+	return &Registry{
 		listeners: make(map[interface{}]func()),
 	}
 }
 
-func (r *ListenerRegistry) Add(key interface{}, listener func()) {
+func (r *Registry) Add(key interface{}, listener func()) {
 	if key == nil {
 		key = new(int)
 	}
@@ -22,11 +22,11 @@ func (r *ListenerRegistry) Add(key interface{}, listener func()) {
 	r.listeners[key] = listener
 }
 
-func (r *ListenerRegistry) Remove(key interface{}) {
+func (r *Registry) Remove(key interface{}) {
 	delete(r.listeners, key)
 }
 
-func (r *ListenerRegistry) Fire() {
+func (r *Registry) Fire() {
 	for _, l := range r.listeners {
 		l()
 	}

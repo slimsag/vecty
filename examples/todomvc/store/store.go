@@ -1,16 +1,16 @@
 package store
 
 import (
+	"github.com/gopherjs/vecty/dispatcher"
 	"github.com/gopherjs/vecty/examples/todomvc/actions"
-	"github.com/gopherjs/vecty/examples/todomvc/dispatcher"
 	"github.com/gopherjs/vecty/examples/todomvc/store/model"
-	"github.com/gopherjs/vecty/examples/todomvc/storeutil"
+	"github.com/gopherjs/vecty/listener"
 )
 
 var (
 	Items     []*model.Item
 	Filter    model.FilterState = model.All
-	Listeners                   = storeutil.NewListenerRegistry()
+	Listeners                   = listener.NewRegistry()
 )
 
 func init() {
